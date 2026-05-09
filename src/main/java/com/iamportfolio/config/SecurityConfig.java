@@ -102,6 +102,9 @@ public class SecurityConfig {
                 // SCIM 2.0 — discovery is anonymous (RFC 7644 §4); resource ops require scim:provision scope
                 .requestMatchers("/scim/v2/ServiceProviderConfig", "/scim/v2/Schemas", "/scim/v2/ResourceTypes").permitAll()
                 .requestMatchers("/scim/v2/**").hasAnyAuthority("SCOPE_scim:provision", "scim:provision", "ROLE_ADMIN")
+                // AI assistant: any authenticated user
+                .requestMatchers("/api/ai/**").authenticated()
+                .requestMatchers("/assistant.html").permitAll()
                 // Everything else requires authentication
                 .anyRequest().authenticated()
             )
