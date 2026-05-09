@@ -42,6 +42,10 @@ app:
   2fa:
     issuer: ${APP_2FA_ISSUER:Sistema Login Seguro}
     app-name: ${APP_2FA_APP_NAME:LoginSeguro}
+  identity:
+    # When true, new self-registered users start as PENDING_APPROVAL and
+    # cannot log in until an admin approves them via /api/identity/users/{id}/approve.
+    require-approval: ${APP_IDENTITY_REQUIRE_APPROVAL:false}
 
 springdoc:
   api-docs:

@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -67,6 +68,27 @@ public class User {
 
     @Column(name = "last_login")
     private LocalDateTime lastLogin;
+
+    // Identity lifecycle (joiner-mover-leaver)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "lifecycle_state", nullable = false, length = 32)
+    private LifecycleState lifecycleState = LifecycleState.ACTIVE;
+
+    @Column(name = "hire_date")
+    private LocalDate hireDate;
+
+    @Column(name = "termination_date")
+    private LocalDate terminationDate;
+
+    @Column(name = "department", length = 100)
+    private String department;
+
+    @Column(name = "external_id", length = 128, unique = true)
+    private String externalId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "manager_id")
+    private User manager;
 
     // Construtores
     public User() {
@@ -208,6 +230,54 @@ public class User {
 
     public void setLastLogin(LocalDateTime lastLogin) {
         this.lastLogin = lastLogin;
+    }
+
+    public LifecycleState getLifecycleState() {
+        return lifecycleState;
+    }
+
+    public void setLifecycleState(LifecycleState lifecycleState) {
+        this.lifecycleState = lifecycleState;
+    }
+
+    public LocalDate getHireDate() {
+        return hireDate;
+    }
+
+    public void setHireDate(LocalDate hireDate) {
+        this.hireDate = hireDate;
+    }
+
+    public LocalDate getTerminationDate() {
+        return terminationDate;
+    }
+
+    public void setTerminationDate(LocalDate terminationDate) {
+        this.terminationDate = terminationDate;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public String getExternalId() {
+        return externalId;
+    }
+
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
+    }
+
+    public User getManager() {
+        return manager;
+    }
+
+    public void setManager(User manager) {
+        this.manager = manager;
     }
 
     @PreUpdate

@@ -1,6 +1,7 @@
 package com.iamportfolio.auth.service;
 
 import com.iamportfolio.auth.dto.*;
+import com.iamportfolio.identity.model.LifecycleState;
 import com.iamportfolio.identity.model.User;
 import com.iamportfolio.identity.repository.UserRepository;
 import com.iamportfolio.auth.jwt.JwtUtil;
@@ -8,6 +9,7 @@ import com.iamportfolio.auth.twofactor.TwoFactorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -34,6 +36,9 @@ public class AuthService {
 
     @Autowired
     private TwoFactorService twoFactorService;
+
+    @Value("${app.identity.require-approval:false}")
+    private boolean requireApproval;
 
     /**
      * Registrar novo usuÃ¡rio
@@ -64,6 +69,7 @@ public class AuthService {
             user.setPassword(passwordEncoder.encode(request.getPassword()));
             user.setFirstName(request.getFirstName());
             user.setLastName(request.getLastName());
+            user.setLifecycleState(requireApproval ? LifecycleState.PENDING_APPROVAL : LifecycleState.ACTIVE);
 
             userRepository.save(user);
 
@@ -108,9 +114,14 @@ public class AuthService {
                 throw new BadCredentialsException("Credenciais invÃ¡lidas");
             }
 
-            // Verificar se a conta estÃ¡ ativa
+            // Verificar se a conta esta ativa (legacy + lifecycle state)
             if (!user.isEnabled()) {
                 return AuthResponse.error("Conta desabilitada");
+            }
+            if (user.getLifecycleState() != LifecycleState.ACTIVE) {
+                logger.warn("Login bloqueado para {} - estado de ciclo de vida: {}",
+                        user.getUsername(), user.getLifecycleState());
+                return AuthResponse.error("Conta nao esta ativa (" + user.getLifecycleState() + ")");
             }
 
             // Se 2FA estÃ¡ habilitado
