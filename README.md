@@ -14,7 +14,8 @@ Sistema de autenticação desenvolvido com **Spring Boot** e interface em **HTML
 - **JWT (JSON Web Tokens)** - Gerenciamento de sessões
 - **TOTP** - Autenticação de duas etapas
 - **BCrypt** - Criptografia de senhas
-- _(Postgres + Flyway substituirão o H2 in-memory na próxima fase do refactor)_
+- **PostgreSQL 16** - Banco de dados relacional (via Docker Compose)
+- **Flyway** - Migrations versionadas
 - **Maven** - Gerenciamento de dependências
 - **Swagger/OpenAPI 3.0** - Documentação da API
 - **Spring Data JPA** - Persistência de dados
@@ -97,6 +98,7 @@ Sistema de Login/
 ### Pré-requisitos
 - **Java 17** ou superior
 - **Maven 3.6** ou superior
+- **Docker** + **Docker Compose** (para o PostgreSQL local)
 
 ### Passo a Passo
 
@@ -106,15 +108,33 @@ Sistema de Login/
    cd Sistema\ de\ Login
    ```
 
-2. **Compile e execute a aplicação:**
+2. **Configure as variáveis de ambiente:**
+   ```bash
+   cp .env.example .env
+   # edite .env e defina pelo menos um JWT_SECRET forte
+   ```
+
+3. **Suba o PostgreSQL via Docker Compose:**
+   ```bash
+   docker compose up -d postgres
+   ```
+   O Postgres expõe a porta **5433** no host (para evitar conflito com instalações locais de PostgreSQL na 5432). O Flyway aplica automaticamente as migrations em `src/main/resources/db/migration/` na próxima inicialização do app.
+
+4. **Compile e execute a aplicação:**
    ```bash
    mvn clean install
    mvn spring-boot:run
    ```
 
-3. **Acesse a aplicação:**
+5. **Acesse a aplicação:**
    - Interface Web: http://localhost:8080
    - **Documentação Swagger: http://localhost:8080/swagger-ui.html**
+
+### Para parar o banco
+```bash
+docker compose down            # mantém o volume (dados persistem)
+docker compose down -v         # apaga o volume (reset completo)
+```
 
 ## 📱 Como Usar
 

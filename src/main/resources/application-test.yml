@@ -1,0 +1,18 @@
+# Test profile: datasource is provided by Testcontainers in the test base class.
+# Flyway runs migrations against the ephemeral container before each test class.
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+  flyway:
+    enabled: true
+    clean-disabled: false
+
+jwt:
+  secret: testSecretKeyMustBeLongEnoughForHmacSha256SigningOnlyForTests
+  expiration: 3600000
+
+cors:
+  allowed:
+    origins: http://localhost

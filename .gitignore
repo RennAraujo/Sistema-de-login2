@@ -54,9 +54,10 @@ logs/
 *.backup
 *~
 
-# Arquivos de configuração local
+# Arquivos de configuração local não versionados
+# (application-local.yml é commitado: traz fallbacks de dev sem segredos.
+# Segredos reais ficam em .env, que continua ignorado.)
 application-local.properties
-application-local.yml
 
 # Arquivos de ambiente
 .env
