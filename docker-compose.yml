@@ -17,13 +17,43 @@ services:
       timeout: 5s
       retries: 10
 
+  iam-portfolio:
+    build:
+      context: .
+    container_name: iam-portfolio-app
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: ${POSTGRES_DB:-iam_portfolio}
+      POSTGRES_USER: ${POSTGRES_USER:-iam}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-iam}
+      JWT_SECRET: ${JWT_SECRET:-changeMeToALongRandomStringOfAtLeast32Characters!!}
+      APP_OAUTH2_ISSUER_URI: ${APP_OAUTH2_ISSUER_URI:-http://localhost:8080}
+      APP_CONNECTOR_BASE_URL: http://scim-connector:9000
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+    ports:
+      - "${SERVER_PORT:-8080}:8080"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080/actuator/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 20
+
   scim-connector:
     build:
       context: ./scim-connector
     container_name: iam-portfolio-scim-connector
     restart: unless-stopped
+    depends_on:
+      iam-portfolio:
+        condition: service_healthy
     environment:
-      IAM_BASE_URL: ${SCIM_CONNECTOR_IAM_BASE_URL:-http://host.docker.internal:8080}
+      IAM_BASE_URL: ${SCIM_CONNECTOR_IAM_BASE_URL:-http://iam-portfolio:8080}
       IAM_CLIENT_ID: ${SCIM_CONNECTOR_CLIENT_ID:-demo-client}
       IAM_CLIENT_SECRET: ${SCIM_CONNECTOR_CLIENT_SECRET:-demo-secret}
       SCIM_SHADOW_DB_PATH: /data/connector.db
@@ -32,8 +62,6 @@ services:
       - "${SCIM_CONNECTOR_PORT:-9000}:9000"
     volumes:
       - scim_connector_data:/data
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
 
 volumes:
   iam_postgres_data:
