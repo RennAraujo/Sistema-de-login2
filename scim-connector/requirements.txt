@@ -6,4 +6,4 @@ pydantic-settings==2.2.1
 aiosqlite==0.20.0
 pytest==8.2.2
 pytest-asyncio==0.23.7
-respx==0.21.1
+respx==0.23.1
