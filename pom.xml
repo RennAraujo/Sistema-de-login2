@@ -56,6 +56,13 @@
             <artifactId>spring-boot-starter-oauth2-authorization-server</artifactId>
         </dependency>
 
+        <!-- BouncyCastle for SAML self-signed certificate generation -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-jdk18on</artifactId>
+            <version>1.78.1</version>
+        </dependency>
+
         <!-- Database: PostgreSQL + Flyway -->
         <dependency>
             <groupId>org.postgresql</groupId>

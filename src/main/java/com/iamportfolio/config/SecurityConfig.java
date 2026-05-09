@@ -82,6 +82,9 @@ public class SecurityConfig {
                 // Custom OAuth2 consent screen — must be reachable by the
                 // authenticated user after the AS redirects them here.
                 .requestMatchers("/consent").authenticated()
+                // SAML IdP: metadata is public; SSO requires authentication
+                .requestMatchers("/saml2/idp/metadata").permitAll()
+                .requestMatchers("/saml2/idp/sso").authenticated()
                 // Swagger/OpenAPI
                 .requestMatchers("/swagger-ui/**").permitAll()
                 .requestMatchers("/swagger-ui.html").permitAll()
