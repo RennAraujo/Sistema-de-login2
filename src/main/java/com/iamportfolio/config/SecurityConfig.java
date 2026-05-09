@@ -99,10 +99,17 @@ public class SecurityConfig {
                 .requestMatchers("/api/oauth2/clients/**").hasAnyAuthority("oauth2:client:manage", "ROLE_ADMIN")
                 // SAML SP registry management
                 .requestMatchers("/api/saml/service-providers/**").hasAnyAuthority("saml:sp:manage", "ROLE_ADMIN")
+                // SCIM 2.0 — discovery is anonymous (RFC 7644 §4); resource ops require scim:provision scope
+                .requestMatchers("/scim/v2/ServiceProviderConfig", "/scim/v2/Schemas", "/scim/v2/ResourceTypes").permitAll()
+                .requestMatchers("/scim/v2/**").hasAnyAuthority("SCOPE_scim:provision", "scim:provision", "ROLE_ADMIN")
                 // Everything else requires authentication
                 .anyRequest().authenticated()
             )
             .authenticationProvider(authenticationProvider())
+            // Spring Authorization Server-issued JWTs (RS256, JWKS) for /scim/v2/** etc.
+            .oauth2ResourceServer(rs -> rs.jwt(org.springframework.security.config.Customizer.withDefaults()))
+            // Legacy JJWT bearer for /api/auth-issued sessions; runs first so it
+            // can short-circuit on its own header before the resource-server filter.
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
