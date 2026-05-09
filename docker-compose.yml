@@ -17,6 +17,26 @@ services:
       timeout: 5s
       retries: 10
 
+  scim-connector:
+    build:
+      context: ./scim-connector
+    container_name: iam-portfolio-scim-connector
+    restart: unless-stopped
+    environment:
+      IAM_BASE_URL: ${SCIM_CONNECTOR_IAM_BASE_URL:-http://host.docker.internal:8080}
+      IAM_CLIENT_ID: ${SCIM_CONNECTOR_CLIENT_ID:-demo-client}
+      IAM_CLIENT_SECRET: ${SCIM_CONNECTOR_CLIENT_SECRET:-demo-secret}
+      SCIM_SHADOW_DB_PATH: /data/connector.db
+      PORT: 9000
+    ports:
+      - "${SCIM_CONNECTOR_PORT:-9000}:9000"
+    volumes:
+      - scim_connector_data:/data
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
 volumes:
   iam_postgres_data:
     name: iam_portfolio_postgres_data
+  scim_connector_data:
+    name: iam_portfolio_scim_connector_data
