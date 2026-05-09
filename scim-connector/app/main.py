@@ -6,7 +6,7 @@ into. Commit 5.3 lets the IdP push to /connector/users/{id}/sync as
 joiner-mover-leaver events fire in the Java side."""
 from __future__ import annotations
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Response
 from pydantic import BaseModel
 
 from . import db
@@ -71,11 +71,18 @@ async def provision_user(external_id: str, payload: ProvisionPayload) -> dict:
     return {"created": new == 1, "updated": updated == 1, "externalId": external_id}
 
 
-@app.delete("/connector/users/{external_id}", status_code=204)
-async def deprovision_user(external_id: str) -> None:
-    """Inbound webhook from the IdP: drop a user (offboarding)."""
+@app.delete("/connector/users/{external_id}", status_code=204, response_class=Response)
+async def deprovision_user(external_id: str):
+    """Inbound webhook from the IdP: drop a user (offboarding).
+
+    Declared with response_class=Response (no body) because FastAPI 0.111+
+    refuses to attach a JSON body to a 204 response — this signals "no
+    content" explicitly so the framework doesn't try to serialize a return
+    value.
+    """
     # Easiest is to drop everyone NOT in the seen set; here we want only
     # this id removed, so build the seen set as "everyone except external_id".
     current = await db.all_user_names()
     keep = [name for name in current if name != external_id]
     await db.remove_missing(keep)
+    return Response(status_code=204)
