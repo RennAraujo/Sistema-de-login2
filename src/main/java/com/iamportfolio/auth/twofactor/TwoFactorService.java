@@ -1,4 +1,4 @@
-package com.iamportfolio.service;
+package com.iamportfolio.auth.twofactor;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;

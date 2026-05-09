@@ -1,4 +1,4 @@
-package com.iamportfolio.security;
+package com.iamportfolio.auth.jwt;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

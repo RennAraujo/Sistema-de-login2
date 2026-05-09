@@ -1,4 +1,4 @@
-package com.iamportfolio.dto;
+package com.iamportfolio.auth.dto;
 
 import java.time.LocalDateTime;
 

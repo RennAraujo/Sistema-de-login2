@@ -50,7 +50,7 @@ springdoc:
     path: /swagger-ui.html
     operations-sorter: method
     tags-sorter: alpha
-  packages-to-scan: com.iamportfolio.controller
+  packages-to-scan: com.iamportfolio
   show-actuator: false
 
 logging:

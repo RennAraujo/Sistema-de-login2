@@ -1,4 +1,4 @@
-package com.iamportfolio.model;
+package com.iamportfolio.identity.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;

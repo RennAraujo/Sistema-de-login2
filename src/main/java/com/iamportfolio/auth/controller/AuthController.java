@@ -1,8 +1,8 @@
-package com.iamportfolio.controller;
+package com.iamportfolio.auth.controller;
 
-import com.iamportfolio.dto.*;
-import com.iamportfolio.service.AuthService;
-import com.iamportfolio.service.TwoFactorService;
+import com.iamportfolio.auth.dto.*;
+import com.iamportfolio.auth.service.AuthService;
+import com.iamportfolio.auth.twofactor.TwoFactorService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

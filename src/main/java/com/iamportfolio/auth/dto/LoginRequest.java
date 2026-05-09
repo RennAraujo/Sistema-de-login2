@@ -1,4 +1,4 @@
-package com.iamportfolio.dto;
+package com.iamportfolio.auth.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

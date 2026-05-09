@@ -1,4 +1,4 @@
-package com.iamportfolio.security;
+package com.iamportfolio.auth.jwt;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;

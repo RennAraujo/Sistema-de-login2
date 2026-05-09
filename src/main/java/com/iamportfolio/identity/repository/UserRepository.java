@@ -1,6 +1,6 @@
-package com.iamportfolio.repository;
+package com.iamportfolio.identity.repository;
 
-import com.iamportfolio.model.User;
+import com.iamportfolio.identity.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

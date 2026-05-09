@@ -1,7 +1,7 @@
-package com.iamportfolio.security;
+package com.iamportfolio.auth.security;
 
-import com.iamportfolio.model.User;
-import com.iamportfolio.repository.UserRepository;
+import com.iamportfolio.identity.model.User;
+import com.iamportfolio.identity.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

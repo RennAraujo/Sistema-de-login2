@@ -1,9 +1,10 @@
-package com.iamportfolio.service;
+package com.iamportfolio.auth.service;
 
-import com.iamportfolio.dto.*;
-import com.iamportfolio.model.User;
-import com.iamportfolio.repository.UserRepository;
-import com.iamportfolio.security.JwtUtil;
+import com.iamportfolio.auth.dto.*;
+import com.iamportfolio.identity.model.User;
+import com.iamportfolio.identity.repository.UserRepository;
+import com.iamportfolio.auth.jwt.JwtUtil;
+import com.iamportfolio.auth.twofactor.TwoFactorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

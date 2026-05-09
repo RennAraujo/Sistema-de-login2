@@ -1,7 +1,7 @@
 package com.iamportfolio.config;
 
-import com.iamportfolio.security.CustomUserDetailsService;
-import com.iamportfolio.security.JwtAuthenticationFilter;
+import com.iamportfolio.auth.security.CustomUserDetailsService;
+import com.iamportfolio.auth.jwt.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
