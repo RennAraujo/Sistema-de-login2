@@ -1,6 +1,7 @@
 package com.iamportfolio.auth.service;
 
 import com.iamportfolio.auth.dto.*;
+import com.iamportfolio.common.audit.Auditable;
 import com.iamportfolio.identity.model.LifecycleState;
 import com.iamportfolio.identity.model.User;
 import com.iamportfolio.identity.repository.UserRepository;
@@ -44,6 +45,7 @@ public class AuthService {
      * Registrar novo usuÃ¡rio
      */
     @Transactional
+    @Auditable(value = "AUTH_REGISTER", resourceType = "USER")
     public AuthResponse register(RegisterRequest request) {
         logger.info("Tentativa de registro para usuÃ¡rio: {}", request.getUsername());
 
@@ -96,6 +98,7 @@ public class AuthService {
      * Fazer login
      */
     @Transactional
+    @Auditable(value = "AUTH_LOGIN", resourceType = "USER")
     public AuthResponse login(LoginRequest request) {
         logger.info("Tentativa de login para: {}", request.getUsernameOrEmail());
 
@@ -158,6 +161,7 @@ public class AuthService {
      * Configurar 2FA para um usuÃ¡rio
      */
     @Transactional
+    @Auditable(value = "AUTH_2FA_SETUP", resourceType = "USER")
     public TwoFactorSetupResponse setupTwoFactor(String username) {
         logger.info("Configurando 2FA para usuÃ¡rio: {}", username);
 
@@ -199,6 +203,7 @@ public class AuthService {
      * Confirmar configuraÃ§Ã£o do 2FA
      */
     @Transactional
+    @Auditable(value = "AUTH_2FA_ENABLED", resourceType = "USER")
     public AuthResponse confirmTwoFactor(String username, String code) {
         logger.info("Confirmando 2FA para usuÃ¡rio: {}", username);
 
@@ -244,6 +249,7 @@ public class AuthService {
      * Desabilitar 2FA
      */
     @Transactional
+    @Auditable(value = "AUTH_2FA_DISABLED", resourceType = "USER")
     public AuthResponse disableTwoFactor(String username, String code) {
         logger.info("Desabilitando 2FA para usuÃ¡rio: {}", username);
 

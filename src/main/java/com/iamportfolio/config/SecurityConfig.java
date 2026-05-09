@@ -77,7 +77,9 @@ public class SecurityConfig {
                 .requestMatchers("/swagger-ui.html").permitAll()
                 .requestMatchers("/api-docs/**").permitAll()
                 .requestMatchers("/v3/api-docs/**").permitAll()
-                // Todos os outros endpoints precisam de autenticaÃ§Ã£o
+                // Audit log: only auditors or admins
+                .requestMatchers("/api/audit/**").hasAnyAuthority("audit:read", "ROLE_ADMIN", "ROLE_AUDITOR")
+                // Everything else requires authentication
                 .anyRequest().authenticated()
             )
             .authenticationProvider(authenticationProvider())
