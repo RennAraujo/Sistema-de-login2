@@ -1,5 +1,6 @@
 package com.iamportfolio.identity.model;
 
+import com.iamportfolio.rbac.model.Group;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -7,7 +8,9 @@ import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -89,6 +92,17 @@ public class User {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manager_id")
     private User manager;
+
+    // RBAC: groups the user belongs to (group-mediated role grants).
+    // Direct role grants live in RoleAssignment so we can capture
+    // assigned_by / expires_at audit metadata.
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "user_groups",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "group_id")
+    )
+    private Set<Group> groups = new HashSet<>();
 
     // Construtores
     public User() {
@@ -278,6 +292,14 @@ public class User {
 
     public void setManager(User manager) {
         this.manager = manager;
+    }
+
+    public Set<Group> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(Set<Group> groups) {
+        this.groups = groups;
     }
 
     @PreUpdate
