@@ -105,6 +105,8 @@ public class SecurityConfig {
                 // AI assistant: any authenticated user
                 .requestMatchers("/api/ai/**").authenticated()
                 .requestMatchers("/assistant.html").permitAll()
+                // Governance (SoD rules + violations + access reviews)
+                .requestMatchers("/api/governance/**").hasAnyAuthority("governance:manage", "ROLE_ADMIN")
                 // Everything else requires authentication
                 .anyRequest().authenticated()
             )

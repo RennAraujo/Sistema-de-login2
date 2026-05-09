@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.env.Environment;
 import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -14,6 +15,7 @@ import java.net.UnknownHostException;
 @SpringBootApplication
 @EnableAsync
 @EnableRetry
+@EnableScheduling
 public class IamPortfolioApplication {
 
     private static final Logger logger = LoggerFactory.getLogger(IamPortfolioApplication.class);
