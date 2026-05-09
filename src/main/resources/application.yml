@@ -55,6 +55,12 @@ app:
     # When the IdP reaches the connector through Docker the URL is
     # http://scim-connector:9000; on the host it's http://localhost:9000.
     base-url: ${APP_CONNECTOR_BASE_URL:http://localhost:9000}
+  ai:
+    anthropic:
+      api-key: ${ANTHROPIC_API_KEY:}
+      base-url: ${ANTHROPIC_BASE_URL:https://api.anthropic.com}
+      model: ${ANTHROPIC_MODEL:claude-opus-4-5}
+      max-tokens: ${ANTHROPIC_MAX_TOKENS:1024}
 
 springdoc:
   api-docs:
