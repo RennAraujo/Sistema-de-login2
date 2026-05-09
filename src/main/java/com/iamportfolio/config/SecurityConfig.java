@@ -14,7 +14,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -41,7 +41,11 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        // DelegatingPasswordEncoder understands prefixes like {bcrypt}, {noop},
+        // {pbkdf2} — required so Spring Authorization Server can verify
+        // client_secrets stored with the {noop}/{bcrypt} format. New user
+        // passwords are still hashed with bcrypt by default.
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
     @Bean
@@ -85,6 +89,8 @@ public class SecurityConfig {
                 // Identity admin: read for identity:read, write for identity:write
                 .requestMatchers("GET", "/api/identity/**").hasAnyAuthority("identity:read", "identity:write", "ROLE_ADMIN", "ROLE_IDENTITY_MANAGER")
                 .requestMatchers("/api/identity/**").hasAnyAuthority("identity:write", "ROLE_ADMIN", "ROLE_IDENTITY_MANAGER")
+                // OAuth2 client management
+                .requestMatchers("/api/oauth2/clients/**").hasAnyAuthority("oauth2:client:manage", "ROLE_ADMIN")
                 // Everything else requires authentication
                 .anyRequest().authenticated()
             )
