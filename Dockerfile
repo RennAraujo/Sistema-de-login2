@@ -11,7 +11,7 @@ COPY src ./src
 RUN mvn -B -q -DskipTests package
 
 # --- runtime stage --------------------------------------------------------
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:25-jre-alpine
 
 ENV JAVA_TOOL_OPTIONS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=75 -Djava.security.egd=file:/dev/./urandom"
 
