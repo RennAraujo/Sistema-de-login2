@@ -79,6 +79,9 @@ public class SecurityConfig {
                 .requestMatchers("/v3/api-docs/**").permitAll()
                 // Audit log: only auditors or admins
                 .requestMatchers("/api/audit/**").hasAnyAuthority("audit:read", "ROLE_ADMIN", "ROLE_AUDITOR")
+                // Identity admin: read for identity:read, write for identity:write
+                .requestMatchers("GET", "/api/identity/**").hasAnyAuthority("identity:read", "identity:write", "ROLE_ADMIN", "ROLE_IDENTITY_MANAGER")
+                .requestMatchers("/api/identity/**").hasAnyAuthority("identity:write", "ROLE_ADMIN", "ROLE_IDENTITY_MANAGER")
                 // Everything else requires authentication
                 .anyRequest().authenticated()
             )
