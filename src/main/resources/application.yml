@@ -46,6 +46,10 @@ app:
     # When true, new self-registered users start as PENDING_APPROVAL and
     # cannot log in until an admin approves them via /api/identity/users/{id}/approve.
     require-approval: ${APP_IDENTITY_REQUIRE_APPROVAL:false}
+  oauth2:
+    # OIDC issuer URI advertised in /.well-known/openid-configuration.
+    # Behind a reverse proxy this MUST match the public URL clients see.
+    issuer-uri: ${APP_OAUTH2_ISSUER_URI:http://localhost:8080}
 
 springdoc:
   api-docs:

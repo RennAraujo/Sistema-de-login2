@@ -50,6 +50,12 @@
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
 
+        <!-- OAuth2 Authorization Server (OIDC IdP) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-authorization-server</artifactId>
+        </dependency>
+
         <!-- Database: PostgreSQL + Flyway -->
         <dependency>
             <groupId>org.postgresql</groupId>
