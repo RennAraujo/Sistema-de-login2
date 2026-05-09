@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IAM Portfolio — Audit Log</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/admin.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <header class="header">
+        <div class="logo"><i class="fas fa-shield-alt"></i><h1>IAM Portfolio</h1></div>
+        <div class="header-actions">
+            <a href="/" class="btn btn-outline"><i class="fas fa-home"></i> Home</a>
+        </div>
+    </header>
+
+    <div class="admin-layout">
+        <aside class="admin-nav">
+            <h3>Admin</h3>
+            <a href="/dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a>
+            <a href="/identity-admin.html"><i class="fas fa-users"></i> Users</a>
+            <a href="/audit.html" class="active"><i class="fas fa-clipboard-list"></i> Audit</a>
+            <a href="/assistant.html"><i class="fas fa-comments"></i> Assistant</a>
+            <a href="/swagger-ui.html"><i class="fas fa-code"></i> API docs</a>
+        </aside>
+
+        <main class="admin-main">
+            <h2>Audit log</h2>
+            <div class="toolbar">
+                <input type="text" id="actorFilter" placeholder="actor"/>
+                <input type="text" id="actionFilter" placeholder="action (e.g. AUTH_LOGIN)"/>
+                <button id="reload" class="btn btn-outline">Search</button>
+            </div>
+            <div id="grid"></div>
+        </main>
+    </div>
+</div>
+<script src="/js/audit.js"></script>
+</body>
+</html>

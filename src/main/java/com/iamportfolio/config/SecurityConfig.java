@@ -104,7 +104,7 @@ public class SecurityConfig {
                 .requestMatchers("/scim/v2/**").hasAnyAuthority("SCOPE_scim:provision", "scim:provision", "ROLE_ADMIN")
                 // AI assistant: any authenticated user
                 .requestMatchers("/api/ai/**").authenticated()
-                .requestMatchers("/assistant.html").permitAll()
+                .requestMatchers("/assistant.html", "/identity-admin.html", "/audit.html", "/dashboard.html").permitAll()
                 // Governance (SoD rules + violations + access reviews)
                 .requestMatchers("/api/governance/**").hasAnyAuthority("governance:manage", "ROLE_ADMIN")
                 // Actuator probes are public; metrics + sensitive details require admin
