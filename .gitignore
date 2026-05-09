@@ -1,0 +1,117 @@
+# Diretórios de compilação
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Eclipse
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# VS Code
+.vscode/
+
+# Claude Code local artifacts (skills, plans, transcripts)
+.claude/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# Arquivos de log
+*.log
+logs/
+
+# Arquivos temporários
+*.tmp
+*.temp
+*.swp
+*.bak
+*.backup
+*~
+
+# Arquivos de configuração local
+application-local.properties
+application-local.yml
+
+# Arquivos de ambiente
+.env
+.env.local
+.env.*.local
+
+# Maven
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Gradle (caso mude de Maven para Gradle no futuro)
+.gradle
+gradle-app.setting
+!gradle-wrapper.jar
+.gradletasknamecache
+
+# Base de dados H2
+*.db
+*.mv.db
+*.trace.db
+
+# Arquivos de teste
+test-output/
+test-results/
+
+# Certificados e chaves
+*.p12
+*.jks
+*.key
+*.pem
+*.crt
+*.cer
+keystore/
+
+# Arquivos específicos do Spring Boot
+spring-shell-history.txt
+rebel.xml
+
+# Build output extra
+out/
+
+# Python (scim-connector)
+scim-connector/.venv/
+scim-connector/__pycache__/
+scim-connector/**/__pycache__/
+scim-connector/.pytest_cache/
+scim-connector/*.db
+scim-connector/.coverage
+
+# Docker volumes locais
+.docker-data/
