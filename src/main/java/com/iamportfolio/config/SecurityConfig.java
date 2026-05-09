@@ -79,6 +79,9 @@ public class SecurityConfig {
                 .requestMatchers("/images/**").permitAll()
                 .requestMatchers("/favicon.ico").permitAll()
                 .requestMatchers("/error").permitAll()
+                // Custom OAuth2 consent screen — must be reachable by the
+                // authenticated user after the AS redirects them here.
+                .requestMatchers("/consent").authenticated()
                 // Swagger/OpenAPI
                 .requestMatchers("/swagger-ui/**").permitAll()
                 .requestMatchers("/swagger-ui.html").permitAll()

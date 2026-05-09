@@ -51,7 +51,8 @@ public class AuthorizationServerConfig {
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
 
         http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
-                .oidc(Customizer.withDefaults());
+                .oidc(Customizer.withDefaults())
+                .authorizationEndpoint(ae -> ae.consentPage("/consent"));
 
         // For HTML browser flows that hit /oauth2/authorize without an active
         // session, redirect to the existing form login at "/" instead of the
