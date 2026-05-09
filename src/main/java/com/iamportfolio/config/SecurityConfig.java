@@ -97,6 +97,8 @@ public class SecurityConfig {
                 .requestMatchers("/api/identity/**").hasAnyAuthority("identity:write", "ROLE_ADMIN", "ROLE_IDENTITY_MANAGER")
                 // OAuth2 client management
                 .requestMatchers("/api/oauth2/clients/**").hasAnyAuthority("oauth2:client:manage", "ROLE_ADMIN")
+                // SAML SP registry management
+                .requestMatchers("/api/saml/service-providers/**").hasAnyAuthority("saml:sp:manage", "ROLE_ADMIN")
                 // Everything else requires authentication
                 .anyRequest().authenticated()
             )
