@@ -5,11 +5,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.env.Environment;
+import org.springframework.retry.annotation.EnableRetry;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 @SpringBootApplication
+@EnableAsync
+@EnableRetry
 public class IamPortfolioApplication {
 
     private static final Logger logger = LoggerFactory.getLogger(IamPortfolioApplication.class);

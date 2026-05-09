@@ -63,6 +63,18 @@
             <version>1.78.1</version>
         </dependency>
 
+        <!-- Reactive WebClient for outbound SCIM provisioning -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+
+        <!-- Retry with backoff for outbound provisioning calls -->
+        <dependency>
+            <groupId>org.springframework.retry</groupId>
+            <artifactId>spring-retry</artifactId>
+        </dependency>
+
         <!-- Database: PostgreSQL + Flyway -->
         <dependency>
             <groupId>org.postgresql</groupId>

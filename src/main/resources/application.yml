@@ -50,6 +50,11 @@ app:
     # OIDC issuer URI advertised in /.well-known/openid-configuration.
     # Behind a reverse proxy this MUST match the public URL clients see.
     issuer-uri: ${APP_OAUTH2_ISSUER_URI:http://localhost:8080}
+  connector:
+    # External SCIM connector (Python FastAPI in scim-connector/).
+    # When the IdP reaches the connector through Docker the URL is
+    # http://scim-connector:9000; on the host it's http://localhost:9000.
+    base-url: ${APP_CONNECTOR_BASE_URL:http://localhost:9000}
 
 springdoc:
   api-docs:
