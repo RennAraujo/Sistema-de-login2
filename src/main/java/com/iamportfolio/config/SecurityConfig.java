@@ -107,6 +107,9 @@ public class SecurityConfig {
                 .requestMatchers("/assistant.html").permitAll()
                 // Governance (SoD rules + violations + access reviews)
                 .requestMatchers("/api/governance/**").hasAnyAuthority("governance:manage", "ROLE_ADMIN")
+                // Actuator probes are public; metrics + sensitive details require admin
+                .requestMatchers("/actuator/health/**", "/actuator/info").permitAll()
+                .requestMatchers("/actuator/**").hasAuthority("ROLE_ADMIN")
                 // Everything else requires authentication
                 .anyRequest().authenticated()
             )

@@ -72,6 +72,26 @@ springdoc:
   packages-to-scan: com.iamportfolio
   show-actuator: false
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: when-authorized
+      probes:
+        enabled: true
+  metrics:
+    tags:
+      application: iam-portfolio
+
+info:
+  app:
+    name: ${spring.application.name}
+    description: Identity & Access Management portfolio
+
 logging:
   level:
     com.iamportfolio: INFO
