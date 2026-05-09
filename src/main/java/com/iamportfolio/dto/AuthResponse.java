@@ -1,4 +1,4 @@
-package com.login.dto;
+package com.iamportfolio.dto;
 
 import java.time.LocalDateTime;
 

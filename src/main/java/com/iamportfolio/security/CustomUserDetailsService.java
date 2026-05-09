@@ -1,7 +1,7 @@
-package com.login.security;
+package com.iamportfolio.security;
 
-import com.login.model.User;
-import com.login.repository.UserRepository;
+import com.iamportfolio.model.User;
+import com.iamportfolio.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,32 +27,32 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String usernameOrEmail) throws UsernameNotFoundException {
-        logger.debug("Carregando usuário: {}", usernameOrEmail);
+        logger.debug("Carregando usuÃ¡rio: {}", usernameOrEmail);
         
         User user = userRepository.findByUsernameOrEmail(usernameOrEmail)
                 .orElseThrow(() -> {
-                    logger.error("Usuário não encontrado: {}", usernameOrEmail);
-                    return new UsernameNotFoundException("Usuário não encontrado: " + usernameOrEmail);
+                    logger.error("UsuÃ¡rio nÃ£o encontrado: {}", usernameOrEmail);
+                    return new UsernameNotFoundException("UsuÃ¡rio nÃ£o encontrado: " + usernameOrEmail);
                 });
 
-        logger.debug("Usuário encontrado: {}", user.getUsername());
+        logger.debug("UsuÃ¡rio encontrado: {}", user.getUsername());
         return UserPrincipal.create(user);
     }
 
     @Transactional
     public UserDetails loadUserById(Long id) {
-        logger.debug("Carregando usuário por ID: {}", id);
+        logger.debug("Carregando usuÃ¡rio por ID: {}", id);
         
         User user = userRepository.findById(id)
                 .orElseThrow(() -> {
-                    logger.error("Usuário não encontrado com ID: {}", id);
-                    return new UsernameNotFoundException("Usuário não encontrado com ID: " + id);
+                    logger.error("UsuÃ¡rio nÃ£o encontrado com ID: {}", id);
+                    return new UsernameNotFoundException("UsuÃ¡rio nÃ£o encontrado com ID: " + id);
                 });
 
         return UserPrincipal.create(user);
     }
 
-    // Classe interna para representar o principal do usuário
+    // Classe interna para representar o principal do usuÃ¡rio
     public static class UserPrincipal implements UserDetails {
         private Long id;
         private String username;

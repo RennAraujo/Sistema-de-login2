@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: Sistema Login Seguro
+    name: iam-portfolio
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:local}
   datasource:
@@ -50,11 +50,11 @@ springdoc:
     path: /swagger-ui.html
     operations-sorter: method
     tags-sorter: alpha
-  packages-to-scan: com.login.controller
+  packages-to-scan: com.iamportfolio.controller
   show-actuator: false
 
 logging:
   level:
-    com.login: INFO
+    com.iamportfolio: INFO
     org.springframework.security: INFO
     org.flywaydb: INFO

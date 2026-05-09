@@ -1,4 +1,4 @@
-package com.login.config;
+package com.iamportfolio.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -21,7 +21,7 @@ public class SwaggerConfig {
                 .info(new Info()
                         .title("Sistema de Login e Supermercado API")
                         .version("1.0.0")
-                        .description("API RESTful para sistema de login com 2FA e gestão de supermercado")
+                        .description("API RESTful para sistema de login com 2FA e gestÃ£o de supermercado")
                         .contact(new Contact()
                                 .name("Equipe de Desenvolvimento")
                                 .email("dev@sistema.com"))
@@ -37,7 +37,7 @@ public class SwaggerConfig {
                                                 .type(SecurityScheme.Type.HTTP)
                                                 .scheme("bearer")
                                                 .bearerFormat("JWT")
-                                                .description("JWT token de autenticação. Formato: Bearer {token}")
+                                                .description("JWT token de autenticaÃ§Ã£o. Formato: Bearer {token}")
                                 )
                 );
     }

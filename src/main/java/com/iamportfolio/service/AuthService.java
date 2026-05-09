@@ -1,9 +1,9 @@
-package com.login.service;
+package com.iamportfolio.service;
 
-import com.login.dto.*;
-import com.login.model.User;
-import com.login.repository.UserRepository;
-import com.login.security.JwtUtil;
+import com.iamportfolio.dto.*;
+import com.iamportfolio.model.User;
+import com.iamportfolio.repository.UserRepository;
+import com.iamportfolio.security.JwtUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,28 +35,28 @@ public class AuthService {
     private TwoFactorService twoFactorService;
 
     /**
-     * Registrar novo usuário
+     * Registrar novo usuÃ¡rio
      */
     @Transactional
     public AuthResponse register(RegisterRequest request) {
-        logger.info("Tentativa de registro para usuário: {}", request.getUsername());
+        logger.info("Tentativa de registro para usuÃ¡rio: {}", request.getUsername());
 
         // Validar se as senhas conferem
         if (!request.isPasswordMatching()) {
-            return AuthResponse.error("As senhas não conferem");
+            return AuthResponse.error("As senhas nÃ£o conferem");
         }
 
-        // Verificar se o usuário já existe
+        // Verificar se o usuÃ¡rio jÃ¡ existe
         if (userRepository.existsByUsername(request.getUsername())) {
-            return AuthResponse.error("Nome de usuário já existe");
+            return AuthResponse.error("Nome de usuÃ¡rio jÃ¡ existe");
         }
 
         if (userRepository.existsByEmail(request.getEmail())) {
-            return AuthResponse.error("Email já está em uso");
+            return AuthResponse.error("Email jÃ¡ estÃ¡ em uso");
         }
 
         try {
-            // Criar novo usuário
+            // Criar novo usuÃ¡rio
             User user = new User();
             user.setUsername(request.getUsername());
             user.setEmail(request.getEmail());
@@ -66,7 +66,7 @@ public class AuthService {
 
             userRepository.save(user);
 
-            logger.info("Usuário registrado com sucesso: {}", user.getUsername());
+            logger.info("UsuÃ¡rio registrado com sucesso: {}", user.getUsername());
 
             // Gerar token JWT
             String token = jwtUtil.generateToken(new java.util.HashMap<>(), user.getUsername());
@@ -80,7 +80,7 @@ public class AuthService {
             );
 
         } catch (Exception e) {
-            logger.error("Erro ao registrar usuário: {}", e.getMessage(), e);
+            logger.error("Erro ao registrar usuÃ¡rio: {}", e.getMessage(), e);
             return AuthResponse.error("Erro interno do servidor");
         }
     }
@@ -93,31 +93,31 @@ public class AuthService {
         logger.info("Tentativa de login para: {}", request.getUsernameOrEmail());
 
         try {
-            // Buscar usuário
+            // Buscar usuÃ¡rio
             Optional<User> optionalUser = userRepository.findByUsernameOrEmail(request.getUsernameOrEmail());
             
             if (optionalUser.isEmpty()) {
-                throw new UsernameNotFoundException("Usuário não encontrado");
+                throw new UsernameNotFoundException("UsuÃ¡rio nÃ£o encontrado");
             }
 
             User user = optionalUser.get();
 
             // Verificar senha
             if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-                throw new BadCredentialsException("Credenciais inválidas");
+                throw new BadCredentialsException("Credenciais invÃ¡lidas");
             }
 
-            // Verificar se a conta está ativa
+            // Verificar se a conta estÃ¡ ativa
             if (!user.isEnabled()) {
                 return AuthResponse.error("Conta desabilitada");
             }
 
-            // Se 2FA está habilitado
+            // Se 2FA estÃ¡ habilitado
             if (user.isTwoFactorEnabled()) {
                 return handleTwoFactorAuth(user, request.getTwoFactorCode());
             }
 
-            // Login sem 2FA - atualizar último login e gerar token
+            // Login sem 2FA - atualizar Ãºltimo login e gerar token
             user.setLastLogin(LocalDateTime.now());
             userRepository.save(user);
 
@@ -134,8 +134,8 @@ public class AuthService {
             );
 
         } catch (UsernameNotFoundException | BadCredentialsException e) {
-            logger.warn("Falha na autenticação para: {} - {}", request.getUsernameOrEmail(), e.getMessage());
-            return AuthResponse.error("Credenciais inválidas");
+            logger.warn("Falha na autenticaÃ§Ã£o para: {} - {}", request.getUsernameOrEmail(), e.getMessage());
+            return AuthResponse.error("Credenciais invÃ¡lidas");
         } catch (Exception e) {
             logger.error("Erro no login: {}", e.getMessage(), e);
             return AuthResponse.error("Erro interno do servidor");
@@ -143,17 +143,17 @@ public class AuthService {
     }
 
     /**
-     * Configurar 2FA para um usuário
+     * Configurar 2FA para um usuÃ¡rio
      */
     @Transactional
     public TwoFactorSetupResponse setupTwoFactor(String username) {
-        logger.info("Configurando 2FA para usuário: {}", username);
+        logger.info("Configurando 2FA para usuÃ¡rio: {}", username);
 
         try {
             Optional<User> optionalUser = userRepository.findByUsername(username);
             
             if (optionalUser.isEmpty()) {
-                return TwoFactorSetupResponse.error("Usuário não encontrado");
+                return TwoFactorSetupResponse.error("UsuÃ¡rio nÃ£o encontrado");
             }
 
             User user = optionalUser.get();
@@ -165,15 +165,15 @@ public class AuthService {
             String qrCodeImage = twoFactorService.generateQrCodeImageAsBase64(secret, user.getUsername());
             String qrCodeUrl = twoFactorService.generateQrCodeUrl(secret, user.getUsername());
             
-            // Gerar códigos de backup
+            // Gerar cÃ³digos de backup
             List<String> backupCodes = twoFactorService.generateBackupCodes();
 
-            // Salvar no usuário (ainda não habilitado)
+            // Salvar no usuÃ¡rio (ainda nÃ£o habilitado)
             user.setTwoFactorSecret(secret);
             user.setBackupCodes(twoFactorService.backupCodesToString(backupCodes));
             userRepository.save(user);
 
-            logger.info("2FA configurado para usuário: {}", username);
+            logger.info("2FA configurado para usuÃ¡rio: {}", username);
 
             return TwoFactorSetupResponse.success(secret, qrCodeImage, qrCodeUrl, backupCodes);
 
@@ -184,35 +184,35 @@ public class AuthService {
     }
 
     /**
-     * Confirmar configuração do 2FA
+     * Confirmar configuraÃ§Ã£o do 2FA
      */
     @Transactional
     public AuthResponse confirmTwoFactor(String username, String code) {
-        logger.info("Confirmando 2FA para usuário: {}", username);
+        logger.info("Confirmando 2FA para usuÃ¡rio: {}", username);
 
         try {
             Optional<User> optionalUser = userRepository.findByUsername(username);
             
             if (optionalUser.isEmpty()) {
-                return AuthResponse.error("Usuário não encontrado");
+                return AuthResponse.error("UsuÃ¡rio nÃ£o encontrado");
             }
 
             User user = optionalUser.get();
 
             if (user.getTwoFactorSecret() == null) {
-                return AuthResponse.error("2FA não foi configurado");
+                return AuthResponse.error("2FA nÃ£o foi configurado");
             }
 
-            // Verificar código
+            // Verificar cÃ³digo
             if (!twoFactorService.verifyCode(user.getTwoFactorSecret(), code)) {
-                return AuthResponse.error("Código 2FA inválido");
+                return AuthResponse.error("CÃ³digo 2FA invÃ¡lido");
             }
 
             // Habilitar 2FA
             user.setTwoFactorEnabled(true);
             userRepository.save(user);
 
-            logger.info("2FA confirmado e habilitado para usuário: {}", username);
+            logger.info("2FA confirmado e habilitado para usuÃ¡rio: {}", username);
 
             return AuthResponse.success(
                 null,
@@ -233,24 +233,24 @@ public class AuthService {
      */
     @Transactional
     public AuthResponse disableTwoFactor(String username, String code) {
-        logger.info("Desabilitando 2FA para usuário: {}", username);
+        logger.info("Desabilitando 2FA para usuÃ¡rio: {}", username);
 
         try {
             Optional<User> optionalUser = userRepository.findByUsername(username);
             
             if (optionalUser.isEmpty()) {
-                return AuthResponse.error("Usuário não encontrado");
+                return AuthResponse.error("UsuÃ¡rio nÃ£o encontrado");
             }
 
             User user = optionalUser.get();
 
             if (!user.isTwoFactorEnabled()) {
-                return AuthResponse.error("2FA não está habilitado");
+                return AuthResponse.error("2FA nÃ£o estÃ¡ habilitado");
             }
 
-            // Verificar código antes de desabilitar
+            // Verificar cÃ³digo antes de desabilitar
             if (!twoFactorService.verifyCode(user.getTwoFactorSecret(), code)) {
-                return AuthResponse.error("Código 2FA inválido");
+                return AuthResponse.error("CÃ³digo 2FA invÃ¡lido");
             }
 
             // Desabilitar 2FA
@@ -259,7 +259,7 @@ public class AuthService {
             user.setBackupCodes(null);
             userRepository.save(user);
 
-            logger.info("2FA desabilitado para usuário: {}", username);
+            logger.info("2FA desabilitado para usuÃ¡rio: {}", username);
 
             return AuthResponse.success(
                 null,
@@ -276,16 +276,16 @@ public class AuthService {
     }
 
     /**
-     * Lidar com autenticação de duas etapas
+     * Lidar com autenticaÃ§Ã£o de duas etapas
      */
     private AuthResponse handleTwoFactorAuth(User user, String twoFactorCode) {
         if (twoFactorCode == null || twoFactorCode.trim().isEmpty()) {
-            return AuthResponse.requiresTwoFactor("Código de duas etapas necessário");
+            return AuthResponse.requiresTwoFactor("CÃ³digo de duas etapas necessÃ¡rio");
         }
 
-        // Verificar código TOTP
+        // Verificar cÃ³digo TOTP
         if (twoFactorService.verifyCode(user.getTwoFactorSecret(), twoFactorCode)) {
-            // Código válido - completar login
+            // CÃ³digo vÃ¡lido - completar login
             user.setLastLogin(LocalDateTime.now());
             userRepository.save(user);
 
@@ -302,10 +302,10 @@ public class AuthService {
             );
         }
 
-        // Verificar códigos de backup
+        // Verificar cÃ³digos de backup
         List<String> backupCodes = twoFactorService.stringToBackupCodes(user.getBackupCodes());
         if (twoFactorService.verifyBackupCode(twoFactorCode, backupCodes)) {
-            // Código de backup válido - remover da lista e completar login
+            // CÃ³digo de backup vÃ¡lido - remover da lista e completar login
             List<String> updatedCodes = twoFactorService.removeUsedBackupCode(twoFactorCode, backupCodes);
             user.setBackupCodes(twoFactorService.backupCodesToString(updatedCodes));
             user.setLastLogin(LocalDateTime.now());
@@ -313,7 +313,7 @@ public class AuthService {
 
             String token = jwtUtil.generateToken(new java.util.HashMap<>(), user.getUsername());
             
-            logger.info("Login com código de backup realizado com sucesso para: {}", user.getUsername());
+            logger.info("Login com cÃ³digo de backup realizado com sucesso para: {}", user.getUsername());
             
             return AuthResponse.success(
                 token,
@@ -324,18 +324,18 @@ public class AuthService {
             );
         }
 
-        return AuthResponse.error("Código de duas etapas inválido");
+        return AuthResponse.error("CÃ³digo de duas etapas invÃ¡lido");
     }
 
     /**
-     * Obter informações do usuário
+     * Obter informaÃ§Ãµes do usuÃ¡rio
      */
     public Optional<User> getUserByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
     /**
-     * Verificar se usuário existe
+     * Verificar se usuÃ¡rio existe
      */
     public boolean userExists(String username) {
         return userRepository.existsByUsername(username);

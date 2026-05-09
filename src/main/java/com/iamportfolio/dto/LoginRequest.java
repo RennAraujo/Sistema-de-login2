@@ -1,14 +1,14 @@
-package com.login.dto;
+package com.iamportfolio.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public class LoginRequest {
 
-    @NotBlank(message = "Nome de usuário ou email é obrigatório")
+    @NotBlank(message = "Nome de usuÃ¡rio ou email Ã© obrigatÃ³rio")
     private String usernameOrEmail;
 
-    @NotBlank(message = "Senha é obrigatória")
+    @NotBlank(message = "Senha Ã© obrigatÃ³ria")
     @Size(min = 6, message = "Senha deve ter pelo menos 6 caracteres")
     private String password;
 
@@ -58,7 +58,7 @@ public class LoginRequest {
         return "LoginRequest{" +
                 "usernameOrEmail='" + usernameOrEmail + '\'' +
                 ", password='[PROTEGIDA]'" +
-                ", twoFactorCode='" + (twoFactorCode != null ? "[INFORMADO]" : "[NÃO INFORMADO]") + '\'' +
+                ", twoFactorCode='" + (twoFactorCode != null ? "[INFORMADO]" : "[NÃƒO INFORMADO]") + '\'' +
                 '}';
     }
 } 

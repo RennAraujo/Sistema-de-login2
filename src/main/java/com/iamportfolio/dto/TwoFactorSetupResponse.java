@@ -1,4 +1,4 @@
-package com.login.dto;
+package com.iamportfolio.dto;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class TwoFactorSetupResponse {
         this.qrCodeUrl = qrCodeUrl;
         this.backupCodes = backupCodes;
         this.success = true;
-        this.message = "Configuração de 2FA realizada com sucesso";
+        this.message = "ConfiguraÃ§Ã£o de 2FA realizada com sucesso";
     }
 
     // Factory methods

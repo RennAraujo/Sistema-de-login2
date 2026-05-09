@@ -1,4 +1,4 @@
-package com.login.dto;
+package com.iamportfolio.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -6,19 +6,19 @@ import jakarta.validation.constraints.Size;
 
 public class RegisterRequest {
 
-    @NotBlank(message = "Nome de usuário é obrigatório")
-    @Size(min = 3, max = 50, message = "Nome de usuário deve ter entre 3 e 50 caracteres")
+    @NotBlank(message = "Nome de usuÃ¡rio Ã© obrigatÃ³rio")
+    @Size(min = 3, max = 50, message = "Nome de usuÃ¡rio deve ter entre 3 e 50 caracteres")
     private String username;
 
-    @NotBlank(message = "Email é obrigatório")
-    @Email(message = "Email deve ter formato válido")
+    @NotBlank(message = "Email Ã© obrigatÃ³rio")
+    @Email(message = "Email deve ter formato vÃ¡lido")
     private String email;
 
-    @NotBlank(message = "Senha é obrigatória")
+    @NotBlank(message = "Senha Ã© obrigatÃ³ria")
     @Size(min = 6, message = "Senha deve ter pelo menos 6 caracteres")
     private String password;
 
-    @NotBlank(message = "Confirmação de senha é obrigatória")
+    @NotBlank(message = "ConfirmaÃ§Ã£o de senha Ã© obrigatÃ³ria")
     private String confirmPassword;
 
     private String firstName;

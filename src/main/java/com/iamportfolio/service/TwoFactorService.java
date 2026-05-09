@@ -1,4 +1,4 @@
-package com.login.service;
+package com.iamportfolio.service;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
@@ -86,7 +86,7 @@ public class TwoFactorService {
         try {
             return codeVerifier.isValidCode(secret, code);
         } catch (Exception e) {
-            logger.error("Erro ao verificar código 2FA: {}", e.getMessage(), e);
+            logger.error("Erro ao verificar cÃ³digo 2FA: {}", e.getMessage(), e);
             return false;
         }
     }
@@ -96,7 +96,7 @@ public class TwoFactorService {
             long currentBucket = timeProvider.getTime() / 30;
             return codeGenerator.generate(secret, currentBucket);
         } catch (Exception e) {
-            logger.error("Erro ao gerar código atual: {}", e.getMessage(), e);
+            logger.error("Erro ao gerar cÃ³digo atual: {}", e.getMessage(), e);
             return null;
         }
     }

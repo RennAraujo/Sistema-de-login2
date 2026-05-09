@@ -1,4 +1,4 @@
-package com.login.security;
+package com.iamportfolio.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -50,12 +50,12 @@ public class JwtUtil {
         return extractClaim(token, Claims::getSubject);
     }
 
-    // Extrair data de expiração
+    // Extrair data de expiraÃ§Ã£o
     public Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    // Extrair claim específico
+    // Extrair claim especÃ­fico
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
@@ -80,7 +80,7 @@ public class JwtUtil {
         try {
             return extractExpiration(token).before(new Date());
         } catch (JwtException e) {
-            logger.error("Erro ao verificar expiração do token: {}", e.getMessage());
+            logger.error("Erro ao verificar expiraÃ§Ã£o do token: {}", e.getMessage());
             return true;
         }
     }
@@ -91,12 +91,12 @@ public class JwtUtil {
             final String username = extractUsername(token);
             return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
         } catch (JwtException e) {
-            logger.error("Token inválido: {}", e.getMessage());
+            logger.error("Token invÃ¡lido: {}", e.getMessage());
             return false;
         }
     }
 
-    // Validar token (versão simples)
+    // Validar token (versÃ£o simples)
     public boolean validateToken(String token) {
         try {
             Jwts.parser()
@@ -105,20 +105,20 @@ public class JwtUtil {
                     .parseSignedClaims(token);
             return true;
         } catch (SecurityException e) {
-            logger.error("Assinatura JWT inválida: {}", e.getMessage());
+            logger.error("Assinatura JWT invÃ¡lida: {}", e.getMessage());
         } catch (MalformedJwtException e) {
             logger.error("Token JWT malformado: {}", e.getMessage());
         } catch (ExpiredJwtException e) {
             logger.error("Token JWT expirado: {}", e.getMessage());
         } catch (UnsupportedJwtException e) {
-            logger.error("Token JWT não suportado: {}", e.getMessage());
+            logger.error("Token JWT nÃ£o suportado: {}", e.getMessage());
         } catch (IllegalArgumentException e) {
             logger.error("Claims JWT vazio: {}", e.getMessage());
         }
         return false;
     }
 
-    // Obter tempo de expiração em segundos
+    // Obter tempo de expiraÃ§Ã£o em segundos
     public long getExpirationTime() {
         return jwtExpirationMs / 1000;
     }
@@ -134,7 +134,7 @@ public class JwtUtil {
                 .compact();
     }
 
-    // Extrair claim específico por nome
+    // Extrair claim especÃ­fico por nome
     public Object extractClaim(String token, String claimName) {
         return extractAllClaims(token).get(claimName);
     }

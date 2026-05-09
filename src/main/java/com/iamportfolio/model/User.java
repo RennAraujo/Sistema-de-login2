@@ -1,4 +1,4 @@
-package com.login.model;
+package com.iamportfolio.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -16,17 +16,17 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Nome de usuário é obrigatório")
-    @Size(min = 3, max = 50, message = "Nome de usuário deve ter entre 3 e 50 caracteres")
+    @NotBlank(message = "Nome de usuÃ¡rio Ã© obrigatÃ³rio")
+    @Size(min = 3, max = 50, message = "Nome de usuÃ¡rio deve ter entre 3 e 50 caracteres")
     @Column(unique = true, nullable = false)
     private String username;
 
-    @NotBlank(message = "Email é obrigatório")
-    @Email(message = "Email deve ter formato válido")
+    @NotBlank(message = "Email Ã© obrigatÃ³rio")
+    @Email(message = "Email deve ter formato vÃ¡lido")
     @Column(unique = true, nullable = false)
     private String email;
 
-    @NotBlank(message = "Senha é obrigatória")
+    @NotBlank(message = "Senha Ã© obrigatÃ³ria")
     @Size(min = 6, message = "Senha deve ter pelo menos 6 caracteres")
     @Column(nullable = false)
     private String password;

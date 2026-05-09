@@ -1,7 +1,7 @@
-package com.login.config;
+package com.iamportfolio.config;
 
-import com.login.security.CustomUserDetailsService;
-import com.login.security.JwtAuthenticationFilter;
+import com.iamportfolio.security.CustomUserDetailsService;
+import com.iamportfolio.security.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -63,7 +63,7 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authz -> authz
-                // Endpoints públicos
+                // Endpoints pÃºblicos
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/").permitAll()
                 .requestMatchers("/index.html").permitAll()
@@ -77,7 +77,7 @@ public class SecurityConfig {
                 .requestMatchers("/swagger-ui.html").permitAll()
                 .requestMatchers("/api-docs/**").permitAll()
                 .requestMatchers("/v3/api-docs/**").permitAll()
-                // Todos os outros endpoints precisam de autenticação
+                // Todos os outros endpoints precisam de autenticaÃ§Ã£o
                 .anyRequest().authenticated()
             )
             .authenticationProvider(authenticationProvider())
@@ -90,11 +90,11 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         
-        // Permitir origens específicas (desenvolvimento)
+        // Permitir origens especÃ­ficas (desenvolvimento)
         List<String> origins = Arrays.asList(allowedOrigins.split(","));
         configuration.setAllowedOrigins(origins);
         
-        // Métodos permitidos
+        // MÃ©todos permitidos
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         
         // Headers permitidos

@@ -12,11 +12,11 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.login</groupId>
-    <artifactId>sistema-login-seguro</artifactId>
+    <groupId>com.iamportfolio</groupId>
+    <artifactId>iam-portfolio</artifactId>
     <version>1.0.0</version>
-    <name>Sistema de Login Seguro</name>
-    <description>Sistema de login com 2FA e interface moderna</description>
+    <name>IAM Portfolio</name>
+    <description>Identity and Access Management portfolio: SSO (OAuth2/OIDC + SAML2), lifecycle, SCIM, audit and AI assistant</description>
 
     <properties>
         <java.version>17</java.version>

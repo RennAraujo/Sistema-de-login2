@@ -1,4 +1,4 @@
-package com.login.security;
+package com.iamportfolio.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -48,11 +48,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                     
-                    logger.debug("Usuário autenticado: {}", username);
+                    logger.debug("UsuÃ¡rio autenticado: {}", username);
                 }
             }
         } catch (Exception e) {
-            logger.error("Erro ao processar autenticação JWT: {}", e.getMessage());
+            logger.error("Erro ao processar autenticaÃ§Ã£o JWT: {}", e.getMessage());
             SecurityContextHolder.clearContext();
         }
 
@@ -73,7 +73,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getRequestURI();
         
-        // Não aplicar filtro para endpoints públicos
+        // NÃ£o aplicar filtro para endpoints pÃºblicos
         return path.startsWith("/api/auth/") ||
                path.startsWith("/h2-console") ||
                path.startsWith("/") && !path.startsWith("/api/") ||

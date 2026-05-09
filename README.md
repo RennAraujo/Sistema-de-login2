@@ -1,6 +1,6 @@
-# Sistema de Login Seguro com 2FA
+# IAM Portfolio
 
-> ⚠️ Em refatoração para se tornar **iam-portfolio** — uma plataforma de Identity & Access Management (IAM) com SSO (OAuth2/OIDC + SAML2), ciclo de vida de identidades, SCIM 2.0, governança e assistente IA com RAG. Acompanhe o histórico de commits.
+> Plataforma de Identity & Access Management — login com 2FA hoje, evoluindo para SSO (OAuth2/OIDC + SAML2), ciclo de vida de identidades (joiner-mover-leaver), SCIM 2.0, auditoria, governança e assistente IA com RAG. Refatoração em andamento — acompanhe o histórico de commits.
 
 ## 📋 Descrição
 

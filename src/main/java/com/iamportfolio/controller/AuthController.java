@@ -1,8 +1,8 @@
-package com.login.controller;
+package com.iamportfolio.controller;
 
-import com.login.dto.*;
-import com.login.service.AuthService;
-import com.login.service.TwoFactorService;
+import com.iamportfolio.dto.*;
+import com.iamportfolio.service.AuthService;
+import com.iamportfolio.service.TwoFactorService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,11 +29,11 @@ public class AuthController {
     private TwoFactorService twoFactorService;
 
     /**
-     * Endpoint para registro de usuário
+     * Endpoint para registro de usuÃ¡rio
      */
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request) {
-        logger.info("Requisição de registro recebida para: {}", request.getUsername());
+        logger.info("RequisiÃ§Ã£o de registro recebida para: {}", request.getUsername());
         
         try {
             AuthResponse response = authService.register(request);
@@ -55,7 +55,7 @@ public class AuthController {
      */
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request) {
-        logger.info("Requisição de login recebida para: {}", request.getUsernameOrEmail());
+        logger.info("RequisiÃ§Ã£o de login recebida para: {}", request.getUsernameOrEmail());
         
         try {
             AuthResponse response = authService.login(request);
@@ -79,7 +79,7 @@ public class AuthController {
      */
     @PostMapping("/2fa/setup")
     public ResponseEntity<?> setupTwoFactor() {
-        logger.info("Requisição de configuração 2FA recebida");
+        logger.info("RequisiÃ§Ã£o de configuraÃ§Ã£o 2FA recebida");
         
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -93,18 +93,18 @@ public class AuthController {
                 return ResponseEntity.badRequest().body(response);
             }
         } catch (Exception e) {
-            logger.error("Erro na configuração 2FA: {}", e.getMessage(), e);
+            logger.error("Erro na configuraÃ§Ã£o 2FA: {}", e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(TwoFactorSetupResponse.error("Erro interno do servidor"));
         }
     }
 
     /**
-     * Endpoint para confirmar configuração do 2FA
+     * Endpoint para confirmar configuraÃ§Ã£o do 2FA
      */
     @PostMapping("/2fa/confirm")
     public ResponseEntity<?> confirmTwoFactor(@RequestBody Map<String, String> request) {
-        logger.info("Requisição de confirmação 2FA recebida");
+        logger.info("RequisiÃ§Ã£o de confirmaÃ§Ã£o 2FA recebida");
         
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -113,18 +113,18 @@ public class AuthController {
             
             if (code == null || code.trim().isEmpty()) {
                 return ResponseEntity.badRequest()
-                        .body(AuthResponse.error("Código é obrigatório"));
+                        .body(AuthResponse.error("CÃ³digo Ã© obrigatÃ³rio"));
             }
             
             AuthResponse response = authService.confirmTwoFactor(username, code);
             
-            if (response.getMessage() != null && !response.getMessage().contains("inválido")) {
+            if (response.getMessage() != null && !response.getMessage().contains("invÃ¡lido")) {
                 return ResponseEntity.ok(response);
             } else {
                 return ResponseEntity.badRequest().body(response);
             }
         } catch (Exception e) {
-            logger.error("Erro na confirmação 2FA: {}", e.getMessage(), e);
+            logger.error("Erro na confirmaÃ§Ã£o 2FA: {}", e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(AuthResponse.error("Erro interno do servidor"));
         }
@@ -135,7 +135,7 @@ public class AuthController {
      */
     @PostMapping("/2fa/disable")
     public ResponseEntity<?> disableTwoFactor(@RequestBody Map<String, String> request) {
-        logger.info("Requisição de desabilitação 2FA recebida");
+        logger.info("RequisiÃ§Ã£o de desabilitaÃ§Ã£o 2FA recebida");
         
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -144,25 +144,25 @@ public class AuthController {
             
             if (code == null || code.trim().isEmpty()) {
                 return ResponseEntity.badRequest()
-                        .body(AuthResponse.error("Código é obrigatório"));
+                        .body(AuthResponse.error("CÃ³digo Ã© obrigatÃ³rio"));
             }
             
             AuthResponse response = authService.disableTwoFactor(username, code);
             
-            if (response.getMessage() != null && !response.getMessage().contains("inválido")) {
+            if (response.getMessage() != null && !response.getMessage().contains("invÃ¡lido")) {
                 return ResponseEntity.ok(response);
             } else {
                 return ResponseEntity.badRequest().body(response);
             }
         } catch (Exception e) {
-            logger.error("Erro na desabilitação 2FA: {}", e.getMessage(), e);
+            logger.error("Erro na desabilitaÃ§Ã£o 2FA: {}", e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(AuthResponse.error("Erro interno do servidor"));
         }
     }
 
     /**
-     * Endpoint para verificar status do usuário
+     * Endpoint para verificar status do usuÃ¡rio
      */
     @GetMapping("/me")
     public ResponseEntity<?> getCurrentUser() {
@@ -181,14 +181,14 @@ public class AuthController {
                     )))
                     .orElse(ResponseEntity.notFound().build());
         } catch (Exception e) {
-            logger.error("Erro ao obter usuário atual: {}", e.getMessage(), e);
+            logger.error("Erro ao obter usuÃ¡rio atual: {}", e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Map.of("error", "Erro interno do servidor"));
         }
     }
 
     /**
-     * Endpoint para validar se token é válido
+     * Endpoint para validar se token Ã© vÃ¡lido
      */
     @GetMapping("/validate")
     public ResponseEntity<?> validateToken() {
@@ -204,7 +204,7 @@ public class AuthController {
                 return ResponseEntity.ok(Map.of("valid", false));
             }
         } catch (Exception e) {
-            logger.error("Erro na validação do token: {}", e.getMessage(), e);
+            logger.error("Erro na validaÃ§Ã£o do token: {}", e.getMessage(), e);
             return ResponseEntity.ok(Map.of("valid", false));
         }
     }
